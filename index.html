@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#090b17" />
+    <meta
+      name="description"
+      content="Rally Club: Overdrive. A neon arcade Pong game by Paul Sackey. Challenge the bot or play a friend on desktop, tablet or mobile."
+    />
+    <title>RALLY CLUB / OVERDRIVE</title>
+    <link rel="icon" href="icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="ambient" aria-hidden="true"><i></i><i></i><i></i></div>
+    <main>
+      <header>
+        <a class="brand" href="#" aria-label="Rally Club home"
+          ><span class="brand-icon">↗</span
+          ><span>RALLY CLUB<small>THE OVERDRIVE EDITION</small></span></a
+        >
+        <div class="top-actions">
+          <span class="online"><i></i> SYSTEM READY</span
+          ><button id="motion" aria-pressed="true" class="text-button">
+            FX ON</button
+          ><button id="sound" aria-pressed="false" class="text-button">
+            SOUND OFF</button
+          ><button id="help" class="icon-button" aria-label="How to play">
+            ?
+          </button>
+        </div>
+      </header>
+      <section class="intro">
+        <div>
+          <p class="eyebrow">
+            <span></span> ONE MORE ROUND. YOU KNOW YOU WANT TO.
+          </p>
+          <h1>
+            ENTER THE <em>OVERDRIVE.</em
+            ><span class="title-spark" aria-hidden="true">✳</span>
+          </h1>
+        </div>
+        <div class="intro-aside">
+          <span class="arcade-token" aria-hidden="true">RC<span>★</span></span>
+          <p>Old-school reflexes.<br />New-school energy.</p>
+        </div>
+      </section>
+      <section class="game-section" aria-label="Ping pong game">
+        <div class="control-bar">
+          <div class="segmented" role="group" aria-label="Game mode">
+            <button data-mode="solo" aria-pressed="true">
+              <span>01</span> VS MACHINE</button
+            ><button data-mode="duo" aria-pressed="false">
+              <span>02</span> LOCAL DUEL
+            </button>
+          </div>
+          <div class="settings">
+            <label
+              >DIFFICULTY
+              <select id="difficulty">
+                <option value="easy">CHILL</option>
+                <option value="normal" selected>LOCKED IN</option>
+                <option value="hard">SWEAT</option>
+              </select></label
+            ><label
+              >FIRST TO
+              <select id="target">
+                <option>5</option>
+                <option selected>7</option>
+                <option>11</option>
+              </select></label
+            >
+          </div>
+        </div>
+        <div class="arena" id="arena">
+          <div class="arena-corners" aria-hidden="true"></div>
+          <div class="scoreboard">
+            <div class="player player-left">
+              <span class="player-avatar">P1</span>
+              <div>
+                <span id="left-name">YOU</span><small>CYAN CORNER</small>
+              </div>
+              <strong id="left-score">00</strong>
+            </div>
+            <div class="score-center">
+              <span class="court-label">RALLY / SYSTEM 001</span
+              ><span id="status">READY WHEN YOU ARE</span>
+              <div class="signal" aria-hidden="true">
+                <i></i><i></i><i></i><i></i><i></i>
+              </div>
+            </div>
+            <div class="player player-right">
+              <span class="player-avatar">P2</span>
+              <div>
+                <span id="right-name">THE MACHINE</span
+                ><small>PINK CORNER</small>
+              </div>
+              <strong id="right-score">00</strong>
+            </div>
+          </div>
+          <div class="play-area" id="play-area">
+            <canvas
+              id="court"
+              width="1000"
+              height="600"
+              tabindex="0"
+              aria-label="Pong court. Solo: W/S or arrow keys, mouse, or touch and drag. Space pauses."
+            ></canvas>
+            <div class="scanlines" aria-hidden="true"></div>
+            <div class="court-coordinates" aria-hidden="true">
+              <span>LIVE FEED // 001</span><span>NO COINS REQUIRED</span>
+            </div>
+            <div class="overlay" id="overlay">
+              <p id="overlay-kicker">THE NEXT POINT IS YOURS</p>
+              <div class="paddle-scene" aria-hidden="true">
+                <span class="orbit"></span><span class="paddle paddle-a"></span
+                ><span class="orbit-ball"></span
+                ><span class="paddle paddle-b"></span>
+              </div>
+              <h2 id="overlay-title">READY TO <em>RALLY?</em></h2>
+              <p id="overlay-description">
+                Quick hands. Fast rallies. Zero excuses.
+              </p>
+              <button class="primary" id="start">
+                <span>LET'S PLAY</span><b>↗</b></button
+              ><span class="start-hint">OR PRESS SPACE TO DROP IN</span>
+            </div>
+            <div id="countdown" aria-hidden="true"></div>
+            <div id="point-pop" aria-hidden="true"></div>
+          </div>
+          <div class="court-footer">
+            <span class="input-guide"
+              ><i></i
+              ><span id="control-hint">W / S · ↑ / ↓ · DRAG TO MOVE</span></span
+            >
+            <div>
+              <button id="pause" disabled>PAUSE Ⅱ</button
+              ><button id="restart">RESET ↺</button
+              ><button id="fullscreen" aria-label="Toggle full screen">
+                EXPAND ⛶
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="below-court">
+          <div class="rally-meter">
+            <span>RALLY ENERGY</span>
+            <div class="meter-track"><i id="energy"></i></div>
+            <b id="rally">0</b>
+          </div>
+          <div class="record">
+            <span>BEST RALLY</span><b id="best">0</b><span>RETURNS</span>
+          </div>
+          <span class="built">DESIGNED & BUILT BY PAUL SACKEY</span>
+        </div>
+      </section>
+      <section class="rules-strip" aria-label="Quick rules">
+        <div>
+          <span>01 / MOVE</span>
+          <p>Find your rhythm.</p>
+          <small>Keys, mouse or touch. Your call.</small>
+        </div>
+        <div>
+          <span>02 / RETURN</span>
+          <p>Play the angles.</p>
+          <small>Paddle edges send sharper returns.</small>
+        </div>
+        <div>
+          <span>03 / REPEAT</span>
+          <p>Chase the next point.</p>
+          <small>Every hit turns up the heat.</small>
+        </div>
+        <div class="end-mark" aria-hidden="true">↗</div>
+      </section>
+      <footer>
+        <span>RALLY CLUB <b>© 2026</b></span
+        ><span>MADE FOR THE LOVE OF PLAY. <i>INSERT YOUR ENERGY.</i></span>
+      </footer>
+      <p class="sr-only" aria-live="polite" id="announcement"></p>
+      <dialog id="help-dialog">
+        <button id="close-help" class="close" aria-label="Close instructions">
+          ×
+        </button>
+        <p class="eyebrow">THE QUICKSTART</p>
+        <h2>GET IN THE GAME.</h2>
+        <p>
+          First to your selected score wins. Paddle-edge hits give sharper
+          angles. The ball accelerates after each return.
+        </p>
+        <dl>
+          <dt>VS MACHINE</dt>
+          <dd>
+            Move with W / S, ↑ / ↓, mouse movement on the court, or touch and
+            drag.
+          </dd>
+          <dt>LOCAL DUEL</dt>
+          <dd>
+            Left player: W / S. Right player: ↑ / ↓. On touchscreens, drag on
+            your own half. Each finger stays assigned to its player.
+          </dd>
+          <dt>PAUSE / RESUME</dt>
+          <dd>
+            Space or P when the court is focused. Switching tabs pauses the
+            match automatically.
+          </dd>
+          <dt>MAKE IT YOURS</dt>
+          <dd>
+            FX toggles motion and particles. Sound is optional. Changing mode,
+            difficulty or target resets the match.
+          </dd>
+        </dl>
+        <p class="help-note">
+          Landscape gives two players more room. There are no stakes, accounts
+          or online multiplayer.
+        </p>
+      </dialog>
+    </main>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

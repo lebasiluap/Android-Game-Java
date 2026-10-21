@@ -1,0 +1,21 @@
+Rally Club verification — 21 October 2026
+
+Automated checks: 8/8 engine tests passed; app.js and engine.js syntax checks passed.
+Browser: desktop preview rendered, match started, scores advanced, pause overlay
+appeared and preserved the match. A full two-player match ended at 7–6 with
+the correct winner. Replay reset both scores; New Match returned to the lobby. Two-player selection changed player labels,
+controls and disabled the solo difficulty setting. Keyboard input exercised.
+Bundled standalone page loaded and played without separate JavaScript files.
+Responsive checks at 320, 360, 768 and 1440 CSS pixels: no horizontal page overflow.
+Mobile layout visually inspected and adjusted to keep decorative artwork in bounds.
+
+Limits: touch event handlers support simultaneous pointer IDs, but physical-device
+multitouch was not tested; browser automation did not support touch injection.
+No Android APK was compiled. This is the browser edition of the original game.
+Sound uses browser Web Audio and an explicit user toggle; audio output was not
+independently recorded or measured. Google Fonts are optional with local fallbacks.
+
+Overdrive redesign: full solo match completed with correct winner screen;
+FX switch disables CSS animation and clears canvas effects. Keyboard, mouse,
+mode selection and reset use the retained engine and pointer input support.
+New portfolio project card, detail panel and embedded game verified locally.
