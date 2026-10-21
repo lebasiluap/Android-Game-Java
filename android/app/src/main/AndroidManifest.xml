@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<manifest xmlns:ns0="http://schemas.android.com/apk/res/android">
+  <application ns0:label="Rally Club" ns0:theme="@style/AppTheme" ns0:icon="@drawable/ic_rally" ns0:allowBackup="false" ns0:supportsRtl="true">
+    <activity ns0:name=".MainActivity" ns0:exported="true" ns0:configChanges="orientation|screenSize|smallestScreenSize">
+      <intent-filter>
+        <action ns0:name="android.intent.action.MAIN" />
+        <category ns0:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+  </application>
+</manifest>

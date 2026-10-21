@@ -44,7 +44,8 @@ Upload index.html, style.css, app.js, engine.js and icon.svg to any static host
 (Netlify, GitHub Pages, Vercel, etc.). Or deploy the standalone HTML as index.html.
 No build tools or server-side services required. Do not describe this version as
 a native Android SDK application: it is a responsive HTML Canvas browser game.
-It works in Android browsers; an Android APK has not been built or tested.
+The separate native Java / Android SDK edition is in android/. Its debug APK
+compiles, lint passes and eight engine checks pass; device UI testing is pending.
 
 VERIFICATION
 8 automated engine tests: pause/countdown; single scoring and winner;

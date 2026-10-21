@@ -1,0 +1,28 @@
+name: Game checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Browser engine checks
+        run: node --test tests/*.test.js
+      - name: Native engine checks
+        working-directory: android
+        run: |
+          mkdir -p build/engine-checks
+          javac -d build/engine-checks app/src/main/java/com/paulsackey/rallyclub/PongEngine.java tests/PongEngineChecks.java
+          java -cp build/engine-checks PongEngineChecks
+      - name: Android APK and lint
+        working-directory: android
+        run: ./gradlew assembleDebug lintDebug --no-daemon
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Rally-Club-Overdrive-debug
+          path: android/app/build/outputs/apk/debug/app-debug.apk

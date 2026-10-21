@@ -23,4 +23,8 @@ Time-based simulation, small physics steps, directional paddle collisions, speed
 
 `node --test tests/*.test.js` runs the 8 engine checks. `node build.mjs` regenerates the portable single-file game after editing source files. `index.html`, `style.css`, `app.js`, and `engine.js` run directly on static hosting. The original Java file remains in `Android Ping Pong Game/Main.java`.
 
-This is the browser edition, including Android-browser support; it is not a compiled Android APK. Physical-device multitouch has not been tested.
+## Native Android edition
+
+The same Overdrive art direction is now implemented in a complete **native Java / Android SDK application** in [`android/`](android/README.md), with platform controls and Canvas rendering. It includes multi-touch, solo/duel modes, neon effects, optional sound, pause/resume, adaptive court sizing and saved-state restoration. It is not a WebView.
+
+[Download the Android debug APK](https://bigmindhub.netlify.app/downloads/Rally-Club-Overdrive-debug.apk). This is a test build, not a Play Store release. The APK compiles and eight pure-Java engine checks pass; physical-device/emulator UI and multi-touch have not been tested.
