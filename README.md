@@ -27,4 +27,4 @@ Time-based simulation, small physics steps, directional paddle collisions, speed
 
 The same Overdrive art direction is now implemented in a complete **native Java / Android SDK application** in [`android/`](android/README.md), with platform controls and Canvas rendering. It includes multi-touch, solo/duel modes, neon effects, optional sound, pause/resume, adaptive court sizing and saved-state restoration. It is not a WebView.
 
-[Download the Android debug APK](https://bigmindhub.netlify.app/downloads/Rally-Club-Overdrive-debug.apk). This is a test build, not a Play Store release. The APK compiles and eight pure-Java engine checks pass; physical-device/emulator UI and multi-touch have not been tested.
+[Download the Android debug APK](https://bigmindhub.netlify.app/downloads/Rally-Club-Overdrive-debug.apk). This is a test build, not a Play Store release. Version 2.0.1 builds, passes lint and eight pure-Java engine checks, and passes 14 Android 16 emulator runtime checks, including real injected multi-touch, rendered animation on/off, rotation, restoration and phone/tablet layouts. Physical hardware and older OS versions have not been tested.

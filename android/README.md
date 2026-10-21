@@ -36,6 +36,14 @@ java -cp build/engine-checks PongEngineChecks
 
 Eight checks cover scoring/winner, fast collisions, walls/bounds, pause/resume, countdown, next serve, frame-rate consistency, and resize/restoration.
 
-## Verification limits
+## Emulator runtime checks
 
-The debug APK was compiled with the installed Android SDK and Gradle. Android lint passed (no errors); remaining warnings cover tool versions and backup configuration. Eight pure-Java engine checks passed. This machine has no configured emulator system image; installation, rendering, audio and multi-touch on a physical Android device have not been tested. A release signing key and Play Store listing are not included.
+Boot an Android 16 emulator, then run `./run-runtime-checks.sh emulator-5554` (substitute its serial). The helper builds and installs both APKs and fails unless all 14 checks pass. The custom runner uses platform Instrumentation and real injected single- and two-pointer touch events; no third-party test dependencies are needed.
+
+The suite covers initial rendering and controls, match setup, countdown/play, drag mapping, pause/resume, two-pointer crossing and release, rendered-frame differences with FX on/off, impact/victory effects, background/foreground, rotation, activity recreation, sound toggle initialization, 320dp phones and a tablet viewport. Screenshots and `report.txt` are written to the test app's external-files `runtime-checks` folder. See `RUNTIME-VERIFICATION.txt` for the verified build and results.
+
+## Verification and limits
+
+Version 2.0.1 built successfully and passed Android lint, eight pure-Java engine checks, and all 14 runtime checks on an Android 16 / API 36 ARM64 emulator. Phone, landscape, small-phone and tablet screenshots were inspected. The compact screen uses a shorter title, a larger court and a gear button for settings. The landscape overlay stays within the court. Selected match settings are shown in the scoreboard.
+
+Physical devices and older Android OS versions have not been tested. Audio initialization and mute were checked, but audio output was not listened to or measured. The APK uses debug signing; a release signing key and Play Store listing are not included.

@@ -1,0 +1,28 @@
+RALLY CLUB: OVERDRIVE 2.0.1 — ANDROID RUNTIME VERIFICATION
+21 October 2026
+Android 16 / API 36 ARM64 emulator
+Phone: 360×640dp; landscape: 640×360dp; small phone: 320×569dp; tablet: 1067×1707dp.
+APK SHA-256: db843bfc3ba15e72bbcd4a69638cfa12c43de9fbeb3fc7e399b1fe4daeec068d
+
+PASS portrait layout and native controls
+PASS compact match setup changes settings
+PASS tap starts countdown and match
+PASS solo touch drag reaches both court ends
+PASS pause freezes physics and resumes
+PASS two simultaneous pointers stay assigned across center
+Animation pixels changed=483, FX-off=0
+PASS FX changes actual rendered frames and OFF is stable
+PASS impact effects and victory feedback run
+PASS background pauses and return preserves the match
+PASS landscape preserves match and keeps overlay inside court
+PASS activity recreation restores paused match
+PASS sound toggle initializes native audio without crashing
+PASS small phone layout at 320dp
+PASS tablet layout and touch mapping
+
+PASSED=14 FAILED=0
+
+Input events were injected through Android Instrumentation into the actual app window.
+Screenshots came from the emulator compositor. Sound initialization and mute were checked;
+audio was not measured or listened to. Physical Android hardware and older Android OS
+versions were not tested.

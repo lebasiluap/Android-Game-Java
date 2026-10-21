@@ -45,7 +45,8 @@ Upload index.html, style.css, app.js, engine.js and icon.svg to any static host
 No build tools or server-side services required. Do not describe this version as
 a native Android SDK application: it is a responsive HTML Canvas browser game.
 The separate native Java / Android SDK edition is in android/. Its debug APK
-compiles, lint passes and eight engine checks pass; device UI testing is pending.
+compiles, lint passes, eight engine checks and 14 Android 16 emulator runtime
+checks pass. Physical-device testing remains pending.
 
 VERIFICATION
 8 automated engine tests: pause/countdown; single scoring and winner;

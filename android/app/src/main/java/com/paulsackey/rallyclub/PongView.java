@@ -23,6 +23,9 @@ public final class PongView extends View implements Choreographer.FrameCallback 
   private Shader fieldGradient;
   private int displayedLeft = -1, displayedRight = -1;
   private String scoreLeft = "00", scoreRight = "00";
+  private boolean labelSolo;
+  private int labelDifficulty = -1, labelTarget = -1;
+  private String settingsLabel = "";
   private final Typeface display = Typeface.create("sans-serif-condensed", Typeface.BOLD_ITALIC),
       mono = Typeface.MONOSPACE;
   private final SparseIntArray pointers = new SparseIntArray();
@@ -224,7 +227,10 @@ public final class PongView extends View implements Choreographer.FrameCallback 
   @Override
   protected void onSizeChanged(int w, int h, int oldw, int oldh) {
     super.onSizeChanged(w, h, oldw, oldh);
-    field.set(dp(9), dp(67), w - dp(9), Math.max(dp(130), h - dp(28)));
+    boolean wide = w > h * 1.4f;
+    float top = dp(wide ? 50 : 67);
+    float bottom = h - dp(wide ? 20 : 28);
+    field.set(dp(9), Math.min(top, h * .35f), w - dp(9), Math.max(h * .6f, bottom));
     if (field.width() > 0) {
       engine.resizeHeight(1000 * field.height() / field.width());
       fieldGradient =
@@ -283,6 +289,7 @@ public final class PongView extends View implements Choreographer.FrameCallback 
     super.onDraw(c);
     if (field.width() <= 0) return;
     float w = getWidth(), h = getHeight();
+    boolean wide = w > h * 1.4f;
     rect(c, 0, 0, w, h, Color.rgb(17, 21, 38), dp(12));
     paint.setStyle(Paint.Style.STROKE);
     paint.setStrokeWidth(dp(1));
@@ -306,17 +313,42 @@ public final class PongView extends View implements Choreographer.FrameCallback 
       displayedRight = engine.scores[1];
       scoreRight = String.format(java.util.Locale.ROOT, "%02d", displayedRight);
     }
-    text(c, scoreLeft, dp(14), dp(55), dp(37), CYAN, display, Paint.Align.LEFT);
-    text(c, scoreRight, w - dp(14), dp(55), dp(37), PINK, display, Paint.Align.RIGHT);
     text(
         c,
-        "RALLY / SYSTEM 001",
-        w / 2,
-        dp(24),
-        dp(6),
-        Color.rgb(134, 141, 170),
-        mono,
-        Paint.Align.CENTER);
+        scoreLeft,
+        dp(14),
+        dp(wide ? 44 : 55),
+        dp(wide ? 29 : 37),
+        CYAN,
+        display,
+        Paint.Align.LEFT);
+    text(
+        c,
+        scoreRight,
+        w - dp(14),
+        dp(wide ? 44 : 55),
+        dp(wide ? 29 : 37),
+        PINK,
+        display,
+        Paint.Align.RIGHT);
+    if (labelSolo != engine.solo
+        || labelDifficulty != engine.difficulty
+        || labelTarget != engine.target) {
+      labelSolo = engine.solo;
+      labelDifficulty = engine.difficulty;
+      labelTarget = engine.target;
+      settingsLabel =
+          (engine.solo
+                  ? (engine.difficulty == 0
+                      ? "CHILL"
+                      : engine.difficulty == 1 ? "LOCKED IN" : "SWEAT")
+                  : "LOCAL DUEL")
+              + " / "
+              + engine.target
+              + " POINTS";
+    }
+    text(
+        c, settingsLabel, w / 2, dp(24), dp(6), Color.rgb(134, 141, 170), mono, Paint.Align.CENTER);
     text(c, engine.state.name(), w / 2, dp(40), dp(7), LIME, mono, Paint.Align.CENTER);
     c.save();
     c.clipRect(field);
@@ -451,8 +483,10 @@ public final class PongView extends View implements Choreographer.FrameCallback 
                     ? (engine.winner == 0 ? "YOU WIN." : "BOT WINS.")
                     : (engine.winner == 0 ? "PLAYER 01 WINS." : "PLAYER 02 WINS.");
     boolean compact = field.height() < dp(190);
-    float size = Math.min(dp(compact ? 28 : 38), field.width() / 10);
-    text(c, title, cx, cy + dp(compact ? -10 : 3), size, Color.WHITE, display, Paint.Align.CENTER);
+    float buttonTop = compact ? field.bottom - dp(53) : cy + dp(42);
+    float titleY = compact ? buttonTop - dp(8) : cy + dp(3);
+    float size = Math.min(dp(compact ? 24 : 38), field.width() / 10);
+    text(c, title, cx, titleY, size, Color.WHITE, display, Paint.Align.CENTER);
     if (!compact)
       text(
           c,
@@ -467,21 +501,14 @@ public final class PongView extends View implements Choreographer.FrameCallback 
           Color.rgb(162, 171, 199),
           mono,
           Paint.Align.CENTER);
-    rect(
-        c,
-        cx - dp(84),
-        cy + dp(compact ? 5 : 42),
-        cx + dp(84),
-        cy + dp(compact ? 53 : 90),
-        LIME,
-        dp(6));
+    rect(c, cx - dp(84), buttonTop, cx + dp(84), buttonTop + dp(48), LIME, dp(6));
     text(
         c,
         ready
             ? "LET'S PLAY  ↗"
             : engine.state == PongEngine.State.PAUSED ? "RESUME  ↗" : "PLAY AGAIN  ↗",
         cx,
-        cy + dp(compact ? 34 : 71),
+        buttonTop + dp(29),
         dp(11),
         BG,
         mono,

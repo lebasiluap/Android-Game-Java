@@ -22,7 +22,7 @@ public final class MainActivity extends Activity {
       LIME = Color.rgb(217, 255, 105),
       MUTED = Color.rgb(136, 148, 174);
   private PongView court;
-  private TextView hero;
+  private TextView hero, footer;
   private Button solo, duel, level, target, pause, fx, sound;
   private LinearLayout root, modeRow, configRow;
 
@@ -122,6 +122,10 @@ public final class MainActivity extends Activity {
             });
     addWeight(modes, solo);
     addWeight(modes, duel);
+    Button setupButton = button("⚙", this::setup);
+    setupButton.setContentDescription("Match setup: difficulty and winning score");
+    setupButton.setTextSize(16);
+    modes.addView(setupButton, new LinearLayout.LayoutParams(dp(48), dp(44)));
     root.addView(modes);
     LinearLayout config = row();
     configRow = config;
@@ -159,7 +163,7 @@ public final class MainActivity extends Activity {
     addWeight(controls, pause);
     addWeight(controls, restart);
     root.addView(controls);
-    TextView footer = label("PAUL SACKEY  /  NATIVE ARCADE EDITION", 9, MUTED);
+    footer = label("PAUL SACKEY  /  NATIVE ARCADE EDITION", 9, MUTED);
     footer.setGravity(Gravity.CENTER);
     footer.setPadding(0, dp(5), 0, dp(2));
     root.addView(footer);
@@ -248,9 +252,10 @@ public final class MainActivity extends Activity {
         .setTitle("MATCH SETUP")
         .setItems(
             new String[] {
-              "Switch solo / local duel",
-              "Cycle difficulty: chill / locked in / sweat",
-              "Cycle target: 5 / 7 / 11"
+              "Switch mode: " + (court.engine.solo ? "VS MACHINE" : "LOCAL DUEL"),
+              "Cycle difficulty: "
+                  + new String[] {"CHILL", "LOCKED IN", "SWEAT"}[court.engine.difficulty],
+              "Cycle target: " + court.engine.target + " points"
             },
             (dialog, which) -> {
               if (which == 0) court.engine.solo = !court.engine.solo;
@@ -265,11 +270,21 @@ public final class MainActivity extends Activity {
   }
 
   private void fit() {
-    boolean landscape =
-        getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+    Configuration cfg = getResources().getConfiguration();
+    boolean landscape = cfg.orientation == Configuration.ORIENTATION_LANDSCAPE;
+    boolean compact = cfg.screenHeightDp < 740;
     hero.setVisibility(landscape ? View.GONE : View.VISIBLE);
+    hero.setText(compact ? "ENTER THE OVERDRIVE." : "ENTER THE\nOVERDRIVE.");
+    hero.setMaxLines(compact ? 1 : 2);
+    hero.setLayoutParams(
+        new LinearLayout.LayoutParams(
+            -1, compact ? dp(60) : LinearLayout.LayoutParams.WRAP_CONTENT));
+    hero.setPadding(0, dp(compact ? 6 : 8), 0, dp(compact ? 8 : 13));
+    hero.setAutoSizeTextTypeUniformWithConfiguration(
+        18, compact ? 28 : 43, 1, android.util.TypedValue.COMPLEX_UNIT_SP);
     modeRow.setVisibility(landscape ? View.GONE : View.VISIBLE);
-    configRow.setVisibility(landscape ? View.GONE : View.VISIBLE);
+    configRow.setVisibility(landscape || compact ? View.GONE : View.VISIBLE);
+    footer.setVisibility(landscape ? View.GONE : View.VISIBLE);
   }
 
   @Override

@@ -21,7 +21,7 @@ jobs:
           java -cp build/engine-checks PongEngineChecks
       - name: Android APK and lint
         working-directory: android
-        run: ./gradlew assembleDebug lintDebug --no-daemon
+        run: ./gradlew assembleDebug assembleDebugAndroidTest lintDebug --no-daemon
       - uses: actions/upload-artifact@v4
         with:
           name: Rally-Club-Overdrive-debug
